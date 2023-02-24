@@ -31,7 +31,11 @@ import string
 import re
 alphabet = string.ascii_uppercase
 
+alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', '<', '=', '>', '?','!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', 
+            ',', '‑', '.', '/', '@']
 
+# function receives input if user want to encrypt or decrypt
 def encrypt_or_decrypt():
     answer = input("Do You want to encrypt (type 'e') or decrypt (type 'd')? \n").lower()
     while answer not in ['e','d']:
@@ -39,23 +43,24 @@ def encrypt_or_decrypt():
         answer = input("Do You want to encrypt (type 'e') or decrypt (type 'd')?\n")
     return answer
 
-
+# function checks if key is an integer from 0 to 26
 def get_validate_key():
-    key_ = int(input("Please enter the key (0 to 26) to use.\n"))
-    while not isinstance(key_, int) or not (0 <= key_ <= 26):
+    key_ = input("Please enter the key (0 to 26) to use.\n")
+    while not key_.isdigit() or not (0 <= int(key_) <= 26):
         print("You have entered an invalid key. Please enter an integer between 0 and 26.")  
-        key_ = int(input("Please enter the key (0 to 26) to use.\n"))
+        key_ = input("Please enter the key (0 to 26) to use.\n")
+    key_ = int(key_)    
     return key_
 
-
+# function checks if letters in message only contains characters in alphabet
 def get_validate_text():
-    text = (input("Enter the message to encrypt.\n")).upper()        
-    while not re.match(r'^[\w\s:<>?!"#$%&\'()*+,‑./@]+$', text):
+    text = (input("Enter the message.\n")).upper()        
+    while not all(symbol in alphabet for symbol in text):
         print("Text must contain latin letters, symbols or numbers.")       
         text = (input("Enter the message to encrypt.\n")).upper()
     return text
 
-
+# function receives inputs if user want to continue to use a programme or not
 def end_dec_again():
     again_answer = input("Do You want to encrypt / decrypt again? (y/n)")  
     while again_answer not in ['y', 'n']:
@@ -63,8 +68,10 @@ def end_dec_again():
         again_answer = input("Do You want to encrypt / decrypt again? (y/n)")  
     return again_answer
 
-#going through text, checking for spaces and adding spaces to text if found
-# going through alphabet checking if letters from text is the same as letter
+
+#this function:
+# goes through text, checks for spaces and adding spaces to ecrypted text if found
+# going through alphabet checking if letters from text is the same as letters in alphabet and symbols, using
 # from alphabet if yes then counting new index by adding key to index of letter of alphabet.
 # Modulo is clarify that newly found index is in the range of alphabet.
 
@@ -102,10 +109,7 @@ def decrypt(text, key_):
                 break
     return decrypted_text
 
-#this function runs the programme and performs all needed validation:
-# if key is an integer from 0 to 26
-# if letters in message only contain characters in alphabet
-# receives inputs if user want to continue to use a programme or not
+#this function runs the programme 
 
 
 def run_cipher():
